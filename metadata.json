@@ -1,0 +1,8 @@
+{
+  "name": "Nasarawa Electric Pole - Agro-Electric Specialists",
+  "description": "Professional agro-electrical solutions providing sustainable power infrastructure for farms and industries in Nasarawa, Nigeria.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
