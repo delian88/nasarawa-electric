@@ -18,10 +18,20 @@ import {
   ExternalLink,
   Globe,
   Award,
-  ShieldCheck
+  ShieldCheck,
+  Quote,
+  Star
 } from 'lucide-react';
 import { getAgroElectricAdvice } from './services/geminiService';
 import { Service, Project, Message } from './types';
+
+interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  quote: string;
+  rating: number;
+}
 
 const SERVICES: Service[] = [
   {
@@ -78,6 +88,30 @@ const PROJECTS: Project[] = [
   }
 ];
 
+const TESTIMONIALS: Testimonial[] = [
+  {
+    id: '1',
+    name: 'Alhaji Ibrahim Musa',
+    role: 'CEO, Musa Integrated Farms, Lafia',
+    quote: "Nasarawa Electric Pole transformed our operation. Their solar irrigation system reduced our fuel costs by 60% in the first season. Their poles are high-quality and built to last.",
+    rating: 5
+  },
+  {
+    id: '2',
+    name: 'Engr. Blessing Ojo',
+    role: 'Technical Director, Keffi Rice Mills',
+    quote: "The industrial wiring and transformer maintenance provided by this team is world-class. Our downtime has decreased significantly since we partnered with them for our agro-processing plant.",
+    rating: 5
+  },
+  {
+    id: '3',
+    name: 'Mr. Silas Audu',
+    role: 'Community Leader, Karu District',
+    quote: "Electrifying our rural farming community was a dream for years. This company made it a reality with professional grid extension services. They truly care about Nasarawa's progress.",
+    rating: 5
+  }
+];
+
 type Page = 'home' | 'services' | 'projects' | 'advisor' | 'contact';
 
 export default function App() {
@@ -113,13 +147,13 @@ export default function App() {
 
   const renderHeader = () => (
     <>
-      <div className="bg-emerald-950 text-emerald-100 py-2.5 px-4 text-xs hidden md:block">
+      <div className="bg-emerald-950 text-emerald-100 py-2.5 px-4 text-xs hidden md:block border-b border-white/5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex gap-8">
-            <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
+            <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer font-medium">
               <Phone size={14} className="text-emerald-400" /> +234 800 NASARAW-E
             </span>
-            <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
+            <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer font-medium">
               <Mail size={14} className="text-emerald-400" /> contact@nasarawaelectric.pole
             </span>
           </div>
@@ -261,7 +295,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col font-inter">
+    <div className="min-h-screen flex flex-col font-inter overflow-x-hidden">
       {renderHeader()}
 
       <main className="flex-grow">
@@ -314,6 +348,39 @@ export default function App() {
                       </div>
                       <div className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter mb-2 sm:mb-3 group-hover:text-emerald-600 transition-colors">{s.v}</div>
                       <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Client Testimonials Section */}
+            <section className="py-20 sm:py-32 bg-slate-50 relative overflow-hidden">
+              <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px]"></div>
+              <div className="max-w-7xl mx-auto px-4 relative z-10">
+                <div className="text-center mb-16 sm:mb-24">
+                  <h2 className="text-emerald-600 font-black uppercase tracking-[0.4em] text-[10px] sm:text-xs mb-4 sm:mb-6">Client Success Stories</h2>
+                  <h3 className="text-3xl sm:text-5xl lg:text-7xl font-black text-slate-900 leading-tight tracking-tighter shimmer-text">TRUSTED BY LEADERS.</h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                  {TESTIMONIALS.map((t) => (
+                    <div key={t.id} className="glass-card rounded-3xl p-8 sm:p-12 relative flex flex-col h-full hover:shadow-2xl transition-all duration-500 border border-slate-100 bg-white/70">
+                      <div className="text-emerald-600 mb-8">
+                        <Quote size={48} className="opacity-20 absolute top-8 right-8" />
+                        <div className="flex gap-1 mb-6">
+                          {[...Array(t.rating)].map((_, i) => (
+                            <Star key={i} size={14} fill="currentColor" className="text-emerald-500" />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-10 italic font-medium flex-grow">
+                        "{t.quote}"
+                      </p>
+                      <div className="mt-auto pt-8 border-t border-slate-100">
+                        <h4 className="text-slate-900 font-black text-lg tracking-tight">{t.name}</h4>
+                        <p className="text-emerald-600 font-bold text-[10px] sm:text-xs uppercase tracking-widest mt-1">{t.role}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -525,3 +592,4 @@ export default function App() {
     </div>
   );
 }
+
