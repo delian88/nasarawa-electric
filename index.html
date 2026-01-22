@@ -13,20 +13,38 @@
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        /* Shining Text Effect */
+        /* High-End Shining Text Effect */
         @keyframes shine {
           to { background-position: 200% center; }
         }
         .shimmer-text {
           background: linear-gradient(
             to right, 
-            #10b981 20%, 
-            #34d399 30%, 
+            #059669 20%, 
+            #10b981 30%, 
             #6ee7b7 50%, 
-            #34d399 70%, 
-            #10b981 80%
+            #10b981 70%, 
+            #059669 80%
+          );
+          background-size: 200% auto;
+          background-clip: text;
+          text-fill-color: transparent;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine 3s linear infinite;
+        }
+
+        .shimmer-text-white {
+          background: linear-gradient(
+            to right, 
+            #ffffff 20%, 
+            #6ee7b7 40%, 
+            #ffffff 60%, 
+            #6ee7b7 80%,
+            #ffffff 100%
           );
           background-size: 200% auto;
           background-clip: text;
@@ -36,45 +54,58 @@
           animation: shine 4s linear infinite;
         }
 
-        /* Hero Shine (White version) */
-        .shimmer-text-white {
-          background: linear-gradient(
-            to right, 
-            #ffffff 20%, 
-            #a7f3d0 40%, 
-            #ffffff 60%, 
-            #a7f3d0 80%,
-            #ffffff 100%
-          );
-          background-size: 200% auto;
-          background-clip: text;
-          text-fill-color: transparent;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shine 5s linear infinite;
+        /* Glassmorphism Styles */
+        .glass-nav {
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .glass-card {
+          background: rgba(255, 255, 255, 0.6);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
 
-        /* Glassmorphism utility */
-        .glass-card {
-          background: rgba(255, 255, 255, 0.7);
+        .glass-card-dark {
+          background: rgba(6, 78, 59, 0.6);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .glass-card-dark {
-          background: rgba(6, 78, 59, 0.4);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Fade-in Animation */
-        .animate-page-in {
-          animation: pageIn 0.5s ease-out forwards;
+        /* Page Entry Animation */
+        .page-transition {
+          animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes pageIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeInUp {
+          from { 
+            opacity: 0; 
+            transform: translateY(20px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0); 
+          }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #059669;
+          border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #047857;
         }
     </style>
     <script type="importmap">
