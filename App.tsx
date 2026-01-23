@@ -20,7 +20,14 @@ import {
   Award,
   ShieldCheck,
   Quote,
-  Star
+  Star,
+  CheckCircle2,
+  Settings,
+  Shield,
+  Truck,
+  HelpCircle,
+  Plus,
+  Minus
 } from 'lucide-react';
 import { getAgroElectricAdvice } from './services/geminiService';
 import { Service, Project, Message } from './types';
@@ -31,6 +38,11 @@ interface Testimonial {
   role: string;
   quote: string;
   rating: number;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
 }
 
 const SERVICES: Service[] = [
@@ -112,6 +124,25 @@ const TESTIMONIALS: Testimonial[] = [
   }
 ];
 
+const FAQS: FAQItem[] = [
+  {
+    question: "Do you manufacture your own electric poles?",
+    answer: "Yes, we produce high-strength reinforced concrete poles locally in Nasarawa. Our poles meet all Nigerian industrial standards for durability and weather resistance."
+  },
+  {
+    question: "What is the typical timeline for a rural farm grid connection?",
+    answer: "Timelines vary depending on distance from the main grid, but a standard connection for a medium-scale farm usually takes 3-6 weeks from survey to power-up."
+  },
+  {
+    question: "Do you offer maintenance services for existing transformers?",
+    answer: "Absolutely. We provide both emergency repair and routine preventative maintenance contracts for private and communal transformers across the state."
+  },
+  {
+    question: "Are your solar irrigation systems customizable?",
+    answer: "Every farm is unique. We conduct detailed water-table and soil analysis to design a bespoke solar array that matches your specific crop water requirements."
+  }
+];
+
 type Page = 'home' | 'services' | 'projects' | 'advisor' | 'contact';
 
 export default function App() {
@@ -120,6 +151,7 @@ export default function App() {
   const [chatInput, setChatInput] = useState('');
   const [chatHistory, setChatHistory] = useState<Message[]>([]);
   const [isAILoading, setIsAILoading] = useState(false);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(0);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -331,25 +363,107 @@ export default function App() {
               </div>
             </section>
 
-            {/* Premium Stat Grid */}
-            <section className="py-16 sm:py-32 bg-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-50 skew-x-12 translate-x-20 hidden sm:block"></div>
-              <div className="max-w-7xl mx-auto px-4 relative z-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 lg:gap-24">
-                  {[
-                    { l: 'Poles Planted', v: '12,500', i: Zap },
-                    { l: 'Energy Saving', v: '35%', i: Sun },
-                    { l: 'LGAs Reached', v: '13/13', i: Globe },
-                    { l: 'Trust Rating', v: '99.9%', i: ShieldCheck },
-                  ].map((s, idx) => (
-                    <div key={idx} className="group flex flex-col items-center sm:items-start text-center sm:text-left">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-6 sm:mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500 shadow-sm">
-                        <s.i size={20} sm:size={24} className="text-emerald-600 group-hover:text-white" />
-                      </div>
-                      <div className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter mb-2 sm:mb-3 group-hover:text-emerald-600 transition-colors">{s.v}</div>
-                      <div className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">{s.l}</div>
+            {/* Core Values Section */}
+            <section className="py-20 sm:py-32 bg-white relative">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="grid lg:grid-cols-2 gap-20 items-center">
+                  <div>
+                    <h2 className="text-emerald-600 font-black uppercase tracking-[0.4em] text-[10px] sm:text-xs mb-6">Our DNA</h2>
+                    <h3 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-tight tracking-tighter mb-10">Why We Are Different.</h3>
+                    <p className="text-slate-500 text-lg leading-relaxed mb-12 font-medium">Unlike general contractors, we specialize exclusively in the intersection of power and agriculture. We understand the specific terrain and energy demands of Nasarawa.</p>
+                    
+                    <div className="grid sm:grid-cols-2 gap-8">
+                      {[
+                        { title: 'Local Production', desc: 'Poles made right here in Nasarawa.', icon: Settings },
+                        { title: 'Quality Assurance', desc: 'Triple-reinforced concrete standards.', icon: Shield },
+                        { title: 'Rapid Deployment', desc: 'Proprietary logistics for rural areas.', icon: Truck },
+                        { title: 'Agro-Expertise', desc: 'Engineers who speak farm language.', icon: Leaf },
+                      ].map((v, i) => (
+                        <div key={i} className="flex gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+                            <v.icon size={20} />
+                          </div>
+                          <div>
+                            <h4 className="font-black text-slate-900 mb-1">{v.title}</h4>
+                            <p className="text-slate-500 text-sm leading-snug">{v.desc}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-emerald-600 rounded-[3rem] rotate-3 opacity-10"></div>
+                    <img 
+                      src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1000" 
+                      alt="Quality Infrastructure" 
+                      className="relative z-10 rounded-[3rem] shadow-2xl object-cover h-[500px] w-full"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Process Timeline Section */}
+            <section className="py-20 sm:py-32 bg-slate-950 text-white relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px]"></div>
+               <div className="max-w-7xl mx-auto px-4 relative z-10">
+                 <div className="text-center mb-20">
+                   <h2 className="text-emerald-400 font-black uppercase tracking-[0.4em] text-[10px] sm:text-xs mb-6">Execution</h2>
+                   <h3 className="text-3xl sm:text-5xl lg:text-7xl font-black leading-tight tracking-tighter shimmer-text-white">THE BLUEPRINT.</h3>
+                 </div>
+
+                 <div className="grid md:grid-cols-4 gap-4 lg:gap-8">
+                   {[
+                     { step: '01', title: 'Consultation', desc: 'Detailed assessment of your farm\'s power requirements.' },
+                     { step: '02', title: 'Technical Design', desc: 'Precision engineering maps for pole paths and grid load.' },
+                     { step: '03', title: 'Installation', desc: 'Heavy-duty deployment of concrete poles and wiring.' },
+                     { step: '04', title: 'Power-On', desc: 'Commissioning and final safety certifications.' }
+                   ].map((p, i) => (
+                     <div key={i} className="glass-card-dark p-8 rounded-[2.5rem] relative group border border-white/5 hover:border-emerald-500/30 transition-all">
+                       <div className="text-6xl font-black text-emerald-500/10 group-hover:text-emerald-500/20 absolute top-4 right-4 transition-colors">{p.step}</div>
+                       <h4 className="text-2xl font-black mb-4 relative z-10">{p.title}</h4>
+                       <p className="text-slate-400 text-sm leading-relaxed relative z-10">{p.desc}</p>
+                       <div className="mt-8 w-10 h-1 rounded-full bg-emerald-500/20 group-hover:w-full transition-all duration-700"></div>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+            </section>
+
+            {/* Technical Specifications Section */}
+            <section className="py-20 sm:py-32 bg-white relative">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="flex flex-col lg:flex-row items-center gap-16">
+                  <div className="lg:w-1/2">
+                    <img 
+                      src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?auto=format&fit=crop&q=80&w=1000" 
+                      alt="Concrete Poles" 
+                      className="rounded-[3rem] shadow-2xl h-[600px] w-full object-cover"
+                    />
+                  </div>
+                  <div className="lg:w-1/2">
+                    <h2 className="text-emerald-600 font-black uppercase tracking-[0.4em] text-[10px] sm:text-xs mb-6">Technical Edge</h2>
+                    <h3 className="text-3xl sm:text-5xl font-black text-slate-900 leading-tight tracking-tighter mb-8">Industrial Grade <br />Concrete Poles.</h3>
+                    <ul className="space-y-6">
+                      {[
+                        'C30/37 Strength Grade Concrete',
+                        '8-Bar Reinforced High-Tensile Steel Core',
+                        'Anti-Corrosion Foundation Coating',
+                        'Integrated Lightning Arrester Mounts',
+                        'Pre-Stressed for High Wind Resistance'
+                      ].map((spec, i) => (
+                        <li key={i} className="flex items-center gap-4 group">
+                          <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center text-white shrink-0 group-hover:scale-125 transition-transform">
+                            <CheckCircle2 size={14} />
+                          </div>
+                          <span className="text-slate-700 font-bold text-lg tracking-tight">{spec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-12 p-8 bg-emerald-50 rounded-3xl border border-emerald-100">
+                       <p className="text-emerald-900 italic font-medium">"Our poles are tested to withstand the harshest tropical storms, ensuring your farm never stays in the dark."</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -384,6 +498,50 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="py-20 sm:py-32 bg-white">
+              <div className="max-w-4xl mx-auto px-4">
+                <div className="text-center mb-20">
+                   <HelpCircle size={48} className="mx-auto text-emerald-600 mb-6 opacity-20" />
+                   <h3 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter shimmer-text">FREQUENTLY ASKED.</h3>
+                </div>
+                <div className="space-y-4">
+                  {FAQS.map((faq, idx) => (
+                    <div key={idx} className="border border-slate-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                      <button 
+                        onClick={() => setOpenFAQ(openFAQ === idx ? null : idx)}
+                        className="w-full p-6 sm:p-8 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition-colors"
+                      >
+                        <span className="font-black text-slate-900 sm:text-lg tracking-tight">{faq.question}</span>
+                        <div className="shrink-0 ml-4">
+                          {openFAQ === idx ? <Minus className="text-emerald-600" /> : <Plus className="text-slate-400" />}
+                        </div>
+                      </button>
+                      <div className={`transition-all duration-300 ease-in-out ${openFAQ === idx ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                        <div className="p-8 pt-0 text-slate-500 leading-relaxed font-medium">
+                          {faq.answer}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* CTA Banner */}
+            <section className="py-12 px-4">
+              <div className="max-w-7xl mx-auto bg-emerald-600 rounded-[3rem] p-12 sm:p-20 text-center relative overflow-hidden shadow-2xl">
+                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+                 <div className="relative z-10">
+                   <h3 className="text-3xl sm:text-5xl font-black text-white mb-8 tracking-tight">Ready to Power Your Progress?</h3>
+                   <p className="text-emerald-50 text-xl mb-12 max-w-2xl mx-auto font-medium">Schedule a site survey today and join the agro-electric revolution in Nasarawa.</p>
+                   <button onClick={() => navTo('contact')} className="bg-white text-emerald-700 px-12 py-5 rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl">
+                     Get Technical Quote
+                   </button>
+                 </div>
               </div>
             </section>
           </div>
@@ -592,4 +750,3 @@ export default function App() {
     </div>
   );
 }
-
